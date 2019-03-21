@@ -1,13 +1,13 @@
 class Triangle{
   constructor(){
     this.l = 30;
-    this.x1 = 700;
+    this.x1 = len;
     this.x2 = this.x1+this.l;
     this.x3 = this.x1+int(this.l/2);
   	this.y1 = 275;
     this.y2 = 275;
     this.y3 = 250;
-    this.group = int(random(4));
+    this.group = int(random(3));
     this.maxX = 0;
     this.mid = 0;
   }
@@ -42,8 +42,8 @@ class Triangle{
   }
 
   hits(sq){
-    if((this.x1 <= 50 && this.x1 >=25) || (this.mid <= 50 && this.mid >=25) || (this.maxX <= 50 && this.maxX >= 25)){
-      if((sq.y + 25 > this.y3)){
+    if(this.x1 <= sq.x + 25 && this.maxX >= sq.x){
+      if((sq.y == this.y3)){
         return true;
       }
     }else if(sq.y < 0){
@@ -56,7 +56,7 @@ class Triangle{
 
 class Square{
   constructor(){
-		this.x = 50;
+		this.x = int(len/4);
   	this.y = 250;
     this.lift = -15;
 		this.gravity = 0.7;
@@ -97,17 +97,19 @@ function preload() {
 }
 
 function setup() {
-		createCanvas(700, 400).parent('sketch-holder');
+		createCanvas(len, brd).parent('sketch-holder');
     sq = new Square();
     highScoreSpan = select('#hs');
     currentScoreSpan = select('#cs');
     let button = createButton('Reset').parent('button');
-    button.position(645);
+    button.position(len-55);
     button.class("badge badge-pill badge-dark");
     button.mousePressed(resetSketch);
 
 }
 
+let len = 1000;
+let brd = 400;
 let sq;
 let tri;
 let value = 250;
@@ -135,7 +137,7 @@ function draw(){
   for(let i = 0; i < tri_arr.length; i++){
     if (tri_arr[i].hits(sq)){
       loadImage('game_over.jpg', img => {
-        img.resize(700, 400);
+        img.resize(len, brd);
         image(img, 0, 0);
       });
       noLoop();
@@ -171,7 +173,7 @@ function keyTyped() {
 function createLine(){
 	stroke(255, 204, 0);
 	strokeWeight(2);
-	line(0, 275, 700, 275);
+	line(0, 275, len, 275);
 }
 
 function resetSketch(){
