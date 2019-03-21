@@ -7,8 +7,9 @@ class Triangle{
   	this.y1 = 275;
     this.y2 = 275;
     this.y3 = 250;
-    this.group = int(random(3));
+    this.group = int(random(4));
     this.maxX = 0;
+    this.mid = 0;
   }
   move(){
     this.x1 -= 3 + incr;
@@ -27,6 +28,7 @@ class Triangle{
     for(let i = 0; i <= this.group; i++){
       triangle(this.x1+this.l*i, this.y1, this.x2+this.l*i, this.y2, this.x3+this.l*i, this.y3);
       this.maxX = this.x2+this.l*i;
+      this.mid = int((this.x1 + this.maxX)/2);
     }
   }
 
@@ -40,7 +42,7 @@ class Triangle{
   }
 
   hits(sq){
-    if((this.maxX >= 50 && this.maxX <=75) || (this.x1 >= 50 && this.x1 <=75)){
+    if((this.x1 <= 50 && this.x1 >=25) || (this.mid <= 50 && this.mid >=25) || (this.maxX <= 50 && this.maxX >= 25)){
       if((sq.y + 25 > this.y3)){
         return true;
       }
@@ -95,10 +97,13 @@ function preload() {
 }
 
 function setup() {
-		createCanvas(700, 400);
+		createCanvas(700, 400).parent('sketch-holder');
     sq = new Square();
     highScoreSpan = select('#hs');
-    let button = createButton("Reset");
+    currentScoreSpan = select('#cs');
+    let button = createButton('Reset').parent('button');
+    button.position(645);
+    button.class("badge badge-pill badge-dark");
     button.mousePressed(resetSketch);
 
 }
@@ -111,6 +116,7 @@ let tri_count = 0;
 let tri_arr = [];
 let max = 0;
 let incr = 0;
+let highScore = 0;
 
 function draw(){
   background(value);
@@ -141,8 +147,12 @@ function draw(){
     tri_arr.push(new Triangle());
   }
   tri_count += 1;
-  incr += 0.0001;
-  highScoreSpan.html(sq.score)
+  incr += 0.001;
+  currentScoreSpan.html(sq.score)
+  if(sq.score > highScore){
+    highScore = sq.score;
+    highScoreSpan.html(highScore);
+  }
 }
 
 function keyTyped() {
@@ -152,7 +162,9 @@ function keyTyped() {
   else if(key == ' ' && counter%2 != 0){
     value = 250;
   }
-  sq.jump();
+  if(sq.y == 250){
+    sq.jump();
+  }
   counter += 1;
 }
 
