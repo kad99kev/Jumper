@@ -147,8 +147,8 @@ function draw(){
 
   if (tri_count % int(76 - 2.5*incr) == 0) {
     tri_arr.push(new Triangle());
-      console.log(int(76 - 2.5*incr));
   }
+  
   tri_count += 1;
   incr += 0.001;
   currentScoreSpan.html(sq.score)
