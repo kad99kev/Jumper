@@ -1,4 +1,4 @@
-class Triangle{
+/*class Triangle{
   constructor(){
     this.l = 30;
     this.x1 = len;
@@ -51,10 +51,10 @@ class Triangle{
     }
     return false;
   }
-}
+}*/
 
 
-class Square{
+/*class Square{
   constructor(){
 		this.x = int(len/4);
   	this.y = 250;
@@ -89,7 +89,7 @@ class Square{
     this.score += 1;
   }
 
-}
+}*/
 
 let img;
 function preload() {
@@ -97,7 +97,7 @@ function preload() {
 }
 
 function setup() {
-		createCanvas(len, brd).parent('sketch-holder');
+    createCanvas(len, brd).parent('sketch-holder');
     sq = new Square();
     highScoreSpan = select('#hs');
     currentScoreSpan = select('#cs');
@@ -145,12 +145,15 @@ function draw(){
     }
   }
 
-  if (tri_count % int(76 - 2.5*incr) == 0) {
+  if (tri_count % int(76 - 3*incr) == 0) {
     tri_arr.push(new Triangle());
   }
-  
+
   tri_count += 1;
-  incr += 0.001;
+  if(incr <= 8){
+    incr += 0.001;
+  }
+
   currentScoreSpan.html(sq.score)
   if(sq.score > highScore){
     highScore = sq.score;
